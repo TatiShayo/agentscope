@@ -1,0 +1,10 @@
+node_modules/
+jaeger.zip
+jaeger_bin/
+*.pyc
+__pycache__/
+node_modules/
+jaeger.zip
+jaeger_bin/
+*.pyc
+__pycache__/

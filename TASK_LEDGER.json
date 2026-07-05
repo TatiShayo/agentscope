@@ -1,0 +1,93 @@
+{
+  "project": "agentscope",
+  "phases": [
+    {
+      "phase": 1,
+      "name": "single-agent instrumentation",
+      "status": "COMPLETED",
+      "summary": "Successfully built the single-agent instrumentation layer containing the `instrument_llm_call` wrapper, mapping core GenAI metadata (model name, input/output token counts, latency) according to OTel GenAI Semantic Conventions v1.27.0. Set up a local Jaeger instance as our OTel collector and backend on Windows, and verified that a simulated agent running these calls produces correct, visible traces in the backend.",
+      "tasks": [
+        {
+          "id": "instrument_llm_call",
+          "description": "Build instrument_llm_call(model, messages, **kwargs) wrapper emitting OTel spans with gen_ai.* attributes",
+          "status": "COMPLETED"
+        },
+        {
+          "id": "otel_collector_setup",
+          "description": "Set up a local OTel Collector config and a backend (e.g. OpenObserve or Tempo)",
+          "status": "COMPLETED"
+        },
+        {
+          "id": "simulated_agent_instrumentation",
+          "description": "Instrument simulated developer agent making LLM calls and verify traces",
+          "status": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "tool calls + multi-agent hierarchy",
+      "status": "COMPLETED",
+      "summary": "Designed and implemented child span propagation via `instrument_tool_call` and nested/parallel agent trees using `dispatch_subagent`. Verified propagation by simulating a full hierarchical orchestration loop: a Lead agent dispatches a Developer subagent (creating a nested span tree), followed by parallel dispatches of Security and QA subagents (creating concurrent sibling branches under a shared 'Review Cycle' parent). The final 10-span trace tree was successfully verified in the backend.",
+      "tasks": [
+        {
+          "id": "instrument_tool_call",
+          "description": "Build instrument_tool_call emitting child spans",
+          "status": "COMPLETED"
+        },
+        {
+          "id": "dispatch_subagent",
+          "description": "Build dispatch_subagent helper for nested agent dispatches",
+          "status": "COMPLETED"
+        },
+        {
+          "id": "parallel_dispatch_simulation",
+          "description": "Simulate parallel dispatch of Security and QA under a shared parent and verify trace tree",
+          "status": "COMPLETED",
+          "trace_id": "04b521bdf3a9757beb39b2b03bb6770b"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "cost aggregation",
+      "status": "COMPLETED",
+      "summary": "Created `aggregate_cost(trace_id)` logic inside `agentscope/cost.py` to traverse trace span trees, resolve model names, and compute total token counts and USD costs using a configurable model pricing table. Exposed this via a queryable endpoint running in a background service on port 8000. Verified that querying the endpoint with a test trace ID returned totals (700 tokens, 3 calls, $0.01462 USD) that matched our hand-calculated results exactly.",
+      "tasks": [
+        {
+          "id": "aggregate_cost_logic",
+          "description": "Create aggregate_cost(trace_id) to traverse trace and roll up tokens/costs",
+          "status": "COMPLETED"
+        },
+        {
+          "id": "expose_cost_endpoint",
+          "description": "Build queryable cost endpoint on port 8000 using HTTP server",
+          "status": "COMPLETED"
+        },
+        {
+          "id": "verify_cost_aggregation",
+          "description": "Ensure cost aggregation matches manual hand-calculation from raw span data",
+          "status": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "approval-gate integration",
+      "status": "COMPLETED",
+      "summary": "Created a ledger helper module `agentscope/ledger.py` that parses the task ledger format and supports automatic trace ID binding for task executions. Integrated a simple lookup function that maps a ledger task entry to a direct, clickable Jaeger UI trace link (e.g. `http://localhost:16686/trace/<trace_id>`). Verified that resolving a sample ledger entry successfully returns the direct link without requiring manual trace ID copy-pasting.",
+      "tasks": [
+        {
+          "id": "trace_id_ledger_binding",
+          "description": "Add automatic trace_id field population into ledger task entries",
+          "status": "COMPLETED"
+        },
+        {
+          "id": "direct_trace_link_resolver",
+          "description": "Build lookup returning direct Jaeger UI link given task entry keys",
+          "status": "COMPLETED"
+        }
+      ]
+    }
+  ]
+}
