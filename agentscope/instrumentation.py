@@ -6,8 +6,10 @@ from typing import Any, Dict, List, Optional, Callable
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+try:
+    from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+except Exception:
+    OTLPSpanExporter = None
 from agentscope.constants import OTEL_GENAI_SPEC_VERSION, CAPTURE_CONTENT
 
 # Setup provider and tracer global references
@@ -26,12 +28,13 @@ def init_tracer(service_name: str = "agentscope", endpoint: str = "localhost:431
     provider = TracerProvider(resource=resource)
     
     # Configure OTLP exporter (gRPC default)
-    try:
-        otlp_exporter = OTLPSpanExporter(endpoint=endpoint, insecure=True)
-        span_processor = BatchSpanProcessor(otlp_exporter)
-        provider.add_span_processor(span_processor)
-    except Exception as e:
-        print(f"Warning: Failed to initialize OTLP exporter: {e}. Falling back to console/mock tracing.")
+    if OTLPSpanExporter is not None:
+        try:
+            otlp_exporter = OTLPSpanExporter(endpoint=endpoint, insecure=True)
+            span_processor = BatchSpanProcessor(otlp_exporter)
+            provider.add_span_processor(span_processor)
+        except Exception as e:
+            print(f"Warning: Failed to initialize OTLP exporter: {e}. Falling back to console/mock tracing.")
         
     trace.set_tracer_provider(provider)
     _tracer = trace.get_tracer(service_name)
