@@ -2,7 +2,7 @@
   "schema": "hermes.tests.v6",
   "run_id": "hermes-2026-07-27-v6-agentscope",
   "project": "agentscope",
-  "produced_at": "2026-07-27T23:28:54.293143",
+  "produced_at": "2026-07-27T23:32:09.894636",
   "summary": {
     "status": "UNRUNNABLE_NO_SCRIPT",
     "passed": 0,
