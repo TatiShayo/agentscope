@@ -3,7 +3,7 @@
   "run_id": "hermes-2026-07-27-v6-agentscope",
   "project": "agentscope",
   "phase": "4.0",
-  "produced_at": "2026-07-27T22:12:35.981964",
+  "produced_at": "2026-07-27T22:38:34.935765",
   "runner_tier": "T1",
   "mode": "static-only",
   "findings": [
