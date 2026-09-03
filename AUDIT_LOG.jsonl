@@ -1,0 +1,5 @@
+{"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-08-15T07:49:01+0300", "signature": "4ca31cced5fcb1c941a1fb1e83adab0dc6e57b84698a466ab5318a9accf36333"}
+{"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-08-15T07:49:55+0300", "signature": "f22b9bc75d449c6a3ff4c13ca495c49971e03319d5ad7f7b16d526f05e6a14af"}
+{"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-08-15T07:50:16+0300", "signature": "293d8cd3e8fca66a0dc52a5a4da8ecbc8e929908adedc5dd9a53cc92e7cd170b"}
+{"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-08-15T07:50:43+0300", "signature": "3a12fb6614af7d7cba9b125eba1514f9cdaa9a0efc2177cff580bb10dfc0efc6"}
+{"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-09-03T11:20:26+0300", "signature": "1e030c43964a55550bbfad8ac5f0510753e23e62b06b43f5d352a38a228a532f"}

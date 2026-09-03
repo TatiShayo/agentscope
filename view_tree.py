@@ -1,69 +1,31 @@
-import urllib.request
-import json
+# view_tree.py
+"""
+CLI utility to fetch and display an AgentScope trace tree from Jaeger.
+Supports ASCII console tree, Mermaid sequence diagram, and JSON outputs.
+"""
+
 import sys
+from agentscope.tree import fetch_trace_data, render_trace
 
-def print_trace_tree(trace_id):
-    url = f"http://localhost:16686/api/traces/{trace_id}"
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python view_tree.py <trace_id> [format: ascii|mermaid|flowchart|json] [jaeger_url]")
+        sys.exit(1)
+
+    trace_id = sys.argv[1]
+    fmt = sys.argv[2] if len(sys.argv) > 2 else "ascii"
+    jaeger_url = sys.argv[3] if len(sys.argv) > 3 else "http://localhost:16686"
+
     try:
-        with urllib.request.urlopen(url) as response:
-            data = json.loads(response.read().decode())
+        trace_data = fetch_trace_data(trace_id, jaeger_url=jaeger_url)
+        spans = trace_data.get("spans", [])
+        output = render_trace(spans, output_format=fmt, title=f"Trace {trace_id}")
+        print(output)
     except Exception as e:
-        print(f"Error fetching trace: {e}")
-        return
+        print(f"Error fetching or rendering trace: {e}")
+        sys.exit(1)
 
-    if not data.get("data"):
-        print("No data found for trace.")
-        return
-
-    trace_data = data["data"][0]
-    spans = trace_data["spans"]
-    
-    # Map spanID to span object
-    span_map = {s["spanID"]: s for s in spans}
-    
-    # Reconstruct parent-child relations
-    children = {}
-    roots = []
-    
-    for s in spans:
-        parent_id = None
-        for ref in s.get("references", []):
-            if ref["refType"] == "CHILD_OF":
-                parent_id = ref["spanID"]
-                break
-        
-        if parent_id and parent_id in span_map:
-            children.setdefault(parent_id, []).append(s["spanID"])
-        else:
-            roots.append(s["spanID"])
-
-    def print_node(span_id, indent=""):
-        span = span_map[span_id]
-        op_name = span["operationName"]
-        # Extract role or system if present in tags
-        tags = {t["key"]: t["value"] for t in span.get("tags", [])}
-        details = []
-        if "agent.role" in tags:
-            details.append(f"role={tags['agent.role']}")
-        if "gen_ai.request.model" in tags:
-            details.append(f"model={tags['gen_ai.request.model']}")
-        if "tool.name" in tags:
-            details.append(f"tool={tags['tool.name']}")
-            
-        details_str = f" [{', '.join(details)}]" if details else ""
-        print(f"{indent}- {op_name}{details_str}")
-        
-        # Sort children by startTime to display in execution order
-        child_spans = children.get(span_id, [])
-        child_spans.sort(key=lambda cid: span_map[cid]["startTime"])
-        for child_id in child_spans:
-            print_node(child_id, indent + "  ")
-
-    for root in roots:
-        print_node(root)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python view_tree.py <trace_id>")
-    else:
-        print_trace_tree(sys.argv[1])
+    main()
