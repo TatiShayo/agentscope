@@ -49,6 +49,23 @@ def log_dispatch_rationale(
         with open(log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
 
+    # Record OTel span event if active span is recording
+    try:
+        from opentelemetry import trace
+        current_span = trace.get_current_span()
+        if current_span and current_span.is_recording():
+            event_attrs = {
+                "action": str(action),
+                "rationale": rationale.strip(),
+            }
+            if target_agent:
+                event_attrs["target_agent"] = str(target_agent)
+            if cycle is not None:
+                event_attrs["cycle"] = int(cycle)
+            current_span.add_event("dispatch_rationale", attributes=event_attrs)
+    except Exception:
+        pass
+
     return entry
 
 

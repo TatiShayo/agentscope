@@ -3,3 +3,4 @@
 {"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-08-15T07:50:16+0300", "signature": "293d8cd3e8fca66a0dc52a5a4da8ecbc8e929908adedc5dd9a53cc92e7cd170b"}
 {"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-08-15T07:50:43+0300", "signature": "3a12fb6614af7d7cba9b125eba1514f9cdaa9a0efc2177cff580bb10dfc0efc6"}
 {"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-09-03T11:20:26+0300", "signature": "1e030c43964a55550bbfad8ac5f0510753e23e62b06b43f5d352a38a228a532f"}
+{"issuer": "lead", "subject": "dev", "backlog_item_id": "item-1", "scope": "scope", "tools_granted": ["tool1"], "timestamp": "2026-09-03T18:36:23+0300", "signature": "141f62031c347bc93e110f82578a76fc53160c571a8ca99732d444119428270d"}

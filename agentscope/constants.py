@@ -66,7 +66,9 @@ MODEL_PRICING: Dict[str, Dict[str, float]] = {
     "gpt-3.5-turbo": {"input": 0.0005, "output": 0.0015},
     "gpt-3.5-turbo-0125": {"input": 0.0005, "output": 0.0015},
 
-    # --- Google Gemini (1.5 & 2.0) ---
+    # --- Google Gemini (1.5, 2.0 & 2.5) ---
+    "gemini-2.5-pro": {"input": 0.00125, "output": 0.005},
+    "gemini-2.5-flash": {"input": 0.0001, "output": 0.0004},
     "gemini-2.0-flash": {"input": 0.0001, "output": 0.0004},
     "gemini-2.0-flash-exp": {"input": 0.0001, "output": 0.0004},
     "gemini-2.0-flash-lite": {"input": 0.000075, "output": 0.0003},
@@ -87,6 +89,7 @@ MODEL_PRICING: Dict[str, Dict[str, float]] = {
     # --- DeepSeek ---
     "deepseek-chat": {"input": 0.00014, "output": 0.00028},
     "deepseek-reasoner": {"input": 0.00055, "output": 0.00219},
+    "deepseek-v4": {"input": 0.00014, "output": 0.00028},
     "deepseek-v3": {"input": 0.00014, "output": 0.00028},
     "deepseek-r1": {"input": 0.00055, "output": 0.00219},
     "deepseek-coder": {"input": 0.00014, "output": 0.00028},
