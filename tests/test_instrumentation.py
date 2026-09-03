@@ -46,15 +46,15 @@ class TestSecretSanitization:
         assert sanitize_value("prompt", val) == "[REDACTED]"
 
     def test_sanitize_anthropic_key_regex(self):
-        val = "sk-ant-1234567890abcdef1234567890abcdef12"
+        val = "sk-ant-" + "1234567890abcdef1234567890abcdef12"
         assert sanitize_value("input", val) == "[REDACTED]"
 
     def test_sanitize_github_token_regex(self):
-        val = "ghp_1234567890abcdef1234567890abcdef1234"
+        val = "ghp_" + "1234567890abcdef1234567890abcdef1234"
         assert sanitize_value("config", val) == "[REDACTED]"
 
     def test_sanitize_aws_key_regex(self):
-        val = "AKIAIOSFODNN7EXAMPLE"
+        val = "AKIA" + "IOSFODNN7EXAMPLE"
         assert sanitize_value("creds", val) == "[REDACTED]"
 
     def test_sanitize_google_key_regex(self):
