@@ -27,7 +27,6 @@ from agentscope.schemas import (
 )
 from agentscope.tree import fetch_trace_data, render_trace
 
-
 class TestJaegerNetworkResilience:
     def test_aggregate_cost_empty_trace_id_raises_value_error(self):
         with pytest.raises(ValueError, match="trace_id must be a non-empty string"):
@@ -58,7 +57,6 @@ class TestJaegerNetworkResilience:
 
         with pytest.raises(ValueError, match="Error fetching trace"):
             fetch_trace_data("bad_trace_id")
-
 
 class TestLedgerResilience:
     def test_load_non_existent_ledger_raises_file_not_found(self, tmp_path):
@@ -92,7 +90,6 @@ class TestLedgerResilience:
         save_ledger(ledger_path, {"phases": [{"phase": 1, "tasks": []}]})
         assert resolve_trace_link(ledger_path, 1, "non_existent") is None
 
-
 class TestDelegationAndCryptoResilience:
     def test_verify_delegation_empty_or_tampered(self, tmp_path):
         key = str(tmp_path / "key")
@@ -110,7 +107,6 @@ class TestDelegationAndCryptoResilience:
         with pytest.raises(ValueError):
             sign_delegation("", "dev", "item-1", "scope", ["t1"], key_path=key)
 
-
 class TestCyclesAndRationaleResilience:
     def test_reset_cycle_count(self, tmp_path):
         ledger_path = str(tmp_path / "LEDGER.json")
@@ -124,7 +120,6 @@ class TestCyclesAndRationaleResilience:
 
     def test_read_rationale_missing_file_returns_empty_list(self, tmp_path):
         assert read_rationale_log(str(tmp_path / "missing.jsonl")) == []
-
 
 class TestRenderTraceResilience:
     def test_render_trace_unsupported_format_raises_value_error(self):

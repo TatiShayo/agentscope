@@ -23,10 +23,8 @@ FINDING_REQUIRED_FIELDS = ["severity", "category", "file", "description"]
 FINDING_ALLOWED_FIELDS = FINDING_REQUIRED_FIELDS + ["line", "recommended_fix", "provenance"]
 TEST_RESULT_REQUIRED_FIELDS = ["status"]
 
-
 class SchemaValidationError(ValueError):
     """A report failed strict schema validation and must not be consumed by another agent."""
-
 
 def validate_finding(finding: Any) -> List[str]:
     """Validates a single finding dict. Returns a list of violation strings (empty = valid)."""
@@ -55,7 +53,6 @@ def validate_finding(finding: Any) -> List[str]:
 
     return errors
 
-
 def validate_findings_report(report: Any) -> Tuple[bool, List[str]]:
     """
     Validates a full FINDINGS.json payload: {"findings": [...]} or a bare list of findings.
@@ -70,7 +67,6 @@ def validate_findings_report(report: Any) -> Tuple[bool, List[str]]:
         for err in validate_finding(finding):
             violations.append(f"findings[{i}]: {err}")
     return len(violations) == 0, violations
-
 
 def validate_test_results(report: Any) -> Tuple[bool, List[str]]:
     """
@@ -106,7 +102,6 @@ def validate_test_results(report: Any) -> Tuple[bool, List[str]]:
 
     return len(violations) == 0, violations
 
-
 def load_validated_report(path: str, kind: str) -> Dict[str, Any]:
     """
     Loads and validates a report file before it may be consumed by another agent.
@@ -135,7 +130,6 @@ def load_validated_report(path: str, kind: str) -> Dict[str, Any]:
         )
     return report if isinstance(report, dict) else {"findings": report}
 
-
 def summarize_findings(report: Any) -> Dict[str, Any]:
     """
     The status-summary-only view the Lead reads: counts and a severity histogram.
@@ -154,7 +148,6 @@ def summarize_findings(report: Any) -> Dict[str, Any]:
         "severity_histogram": histogram,
         "clean": len(findings) == 0,
     }
-
 
 def summarize_test_results(report: Dict[str, Any]) -> Dict[str, Any]:
     """

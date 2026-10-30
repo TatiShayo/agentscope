@@ -20,14 +20,12 @@ from agentscope.instrumentation import (
     async_dispatch_subagent,
 )
 
-
 @pytest.fixture(autouse=True)
 def setup_test_tracer():
     reset_tracer()
     tracer, exporter = init_in_memory_tracer("test-async-service")
     yield tracer, exporter
     reset_tracer()
-
 
 @pytest.mark.asyncio
 async def test_async_instrument_llm_call_success(setup_test_tracer):
@@ -47,7 +45,6 @@ async def test_async_instrument_llm_call_success(setup_test_tracer):
     assert span.attributes["gen_ai.usage.output_tokens"] == 120
     assert span.status.status_code == StatusCode.OK
 
-
 @pytest.mark.asyncio
 async def test_async_instrument_llm_call_records_exception(setup_test_tracer):
     tracer, exporter = setup_test_tracer
@@ -60,7 +57,6 @@ async def test_async_instrument_llm_call_records_exception(setup_test_tracer):
     assert len(spans) == 1
     assert spans[0].status.status_code == StatusCode.ERROR
     assert "API Timeout" in spans[0].status.description
-
 
 @pytest.mark.asyncio
 async def test_async_instrument_tool_call_timed(setup_test_tracer):
@@ -75,7 +71,6 @@ async def test_async_instrument_tool_call_timed(setup_test_tracer):
     assert spans[0].attributes["results.count"] == 5
     assert spans[0].status.status_code == StatusCode.OK
 
-
 @pytest.mark.asyncio
 async def test_async_subagent_dispatch(setup_test_tracer):
     tracer, exporter = setup_test_tracer
@@ -89,7 +84,6 @@ async def test_async_subagent_dispatch(setup_test_tracer):
     llm_span = spans[0]
     subagent_span = spans[1]
     assert llm_span.parent.span_id == subagent_span.context.span_id
-
 
 @pytest.mark.asyncio
 async def test_async_parallel_agent_execution(setup_test_tracer):

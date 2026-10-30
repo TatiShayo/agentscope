@@ -55,7 +55,6 @@ SECRET_PATTERNS = [
 
 SECRET_KEYWORDS = ("key", "secret", "token", "password", "auth", "credential", "private", "api_key")
 
-
 def sanitize_value(key: str, value: Any) -> Any:
     """
     Recursively redacts values that look like secrets/keys based on key name or content patterns.
@@ -86,7 +85,6 @@ def sanitize_value(key: str, value: Any) -> Any:
 
     return value
 
-
 def sanitize_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Recursively sanitizes a dictionary of attributes."""
     if not isinstance(d, dict):
@@ -95,7 +93,6 @@ def sanitize_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     for k, v in d.items():
         sanitized[str(k)] = sanitize_value(str(k), v)
     return sanitized
-
 
 def init_tracer(
     service_name: str = DEFAULT_SERVICE_NAME,
@@ -136,7 +133,6 @@ def init_tracer(
         _tracer = provider.get_tracer(service_name)
         return _tracer
 
-
 def init_in_memory_tracer(service_name: str = "agentscope-in-memory") -> tuple[trace.Tracer, InMemorySpanExporter]:
     """
     Initializes an in-memory tracer provider with an InMemorySpanExporter.
@@ -158,7 +154,6 @@ def init_in_memory_tracer(service_name: str = "agentscope-in-memory") -> tuple[t
         _tracer = provider.get_tracer(service_name)
         return _tracer, exporter
 
-
 def get_tracer() -> trace.Tracer:
     """Returns the active global tracer, creating a default one if uninitialized."""
     global _tracer, _tracer_provider
@@ -171,12 +166,10 @@ def get_tracer() -> trace.Tracer:
         _tracer = trace.get_tracer(DEFAULT_SERVICE_NAME)
         return _tracer
 
-
 def get_in_memory_exporter() -> Optional[InMemorySpanExporter]:
     """Returns the current InMemorySpanExporter if configured."""
     with _lock:
         return _in_memory_exporter
-
 
 def flush_tracer() -> None:
     """Flushes all registered span processors."""
@@ -186,7 +179,6 @@ def flush_tracer() -> None:
                 _tracer_provider.force_flush()
             except Exception:
                 pass
-
 
 def shutdown_tracer() -> None:
     """Shuts down the tracer provider cleanly."""
@@ -201,11 +193,9 @@ def shutdown_tracer() -> None:
         _tracer = None
         _in_memory_exporter = None
 
-
 def reset_tracer() -> None:
     """Resets the global tracer state (useful between tests)."""
     shutdown_tracer()
-
 
 class LLMCallContext:
     """Context object passed to caller to record LLM response metadata."""
@@ -215,7 +205,6 @@ class LLMCallContext:
         self.output_tokens: int = 0
         self.response_model: Optional[str] = None
         self.completion: Optional[str] = None
-
 
 @contextmanager
 def instrument_llm_call(
@@ -265,7 +254,6 @@ def instrument_llm_call(
             span.set_status(Status(StatusCode.ERROR, description=str(exc)))
             raise
 
-
 @asynccontextmanager
 async def async_instrument_llm_call(
     model: str,
@@ -313,7 +301,6 @@ async def async_instrument_llm_call(
             span.set_status(Status(StatusCode.ERROR, description=str(exc)))
             raise
 
-
 def instrument_tool_call(
     tool_name: str,
     args: Dict[str, Any],
@@ -341,7 +328,6 @@ def instrument_tool_call(
         span.set_status(Status(StatusCode.OK))
         return span
 
-
 @contextmanager
 def instrument_tool_call_timed(
     tool_name: str,
@@ -366,7 +352,6 @@ def instrument_tool_call_timed(
             span.set_status(Status(StatusCode.ERROR, description=str(exc)))
             raise
 
-
 @asynccontextmanager
 async def async_instrument_tool_call_timed(
     tool_name: str,
@@ -390,7 +375,6 @@ async def async_instrument_tool_call_timed(
             span.record_exception(exc)
             span.set_status(Status(StatusCode.ERROR, description=str(exc)))
             raise
-
 
 @contextmanager
 def dispatch_subagent(
@@ -422,7 +406,6 @@ def dispatch_subagent(
             span.record_exception(exc)
             span.set_status(Status(StatusCode.ERROR, description=str(exc)))
             raise
-
 
 @asynccontextmanager
 async def async_dispatch_subagent(

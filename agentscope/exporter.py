@@ -24,7 +24,6 @@ from agentscope.cost import _extract_tags_dict, _extract_span_name, aggregate_co
 
 logger = logging.getLogger("agentscope.exporter")
 
-
 class ExponentialBackoff:
     """Calculates exponential backoff delays with full jitter."""
     def __init__(
@@ -44,7 +43,6 @@ class ExponentialBackoff:
         if self.jitter:
             delay = random.uniform(0, delay)
         return delay
-
 
 class ResilientSpanExporter(SpanExporter):
     """
@@ -138,10 +136,7 @@ class ResilientSpanExporter(SpanExporter):
             if self.underlying_exporter:
                 self.underlying_exporter.shutdown()
 
-
-# ============================================================================
 # Hierarchy Tree Construction & Serialization
-# ============================================================================
 
 class SpanNode:
     """Represents a node in the hierarchical agent trace tree."""
@@ -178,7 +173,6 @@ class SpanNode:
             "attributes": self.data.get("attributes", {}),
             "children": [c.to_dict() for c in self.children],
         }
-
 
 def build_trace_tree(spans: Sequence[Any]) -> List[SpanNode]:
     """
@@ -265,7 +259,6 @@ def build_trace_tree(spans: Sequence[Any]) -> List[SpanNode]:
 
     return roots
 
-
 def export_trace_tree_json(spans: Sequence[Any]) -> str:
     """Exports trace hierarchy as a structured JSON string."""
     roots = build_trace_tree(spans)
@@ -277,10 +270,7 @@ def export_trace_tree_json(spans: Sequence[Any]) -> str:
     }
     return json.dumps(data, indent=2)
 
-
-# ============================================================================
 # Mermaid Diagram Exporters
-# ============================================================================
 
 def export_mermaid_sequence(spans: Sequence[Any], title: str = "AgentScope Orchestration Trace") -> str:
     """
@@ -350,7 +340,6 @@ def export_mermaid_sequence(spans: Sequence[Any], title: str = "AgentScope Orche
 
     return "\n".join(lines)
 
-
 def export_mermaid_flowchart(spans: Sequence[Any], title: str = "AgentScope Execution Flow") -> str:
     """
     Generates a Mermaid flowchart (graph TD) showing hierarchy, token consumption,
@@ -385,10 +374,7 @@ def export_mermaid_flowchart(spans: Sequence[Any], title: str = "AgentScope Exec
 
     return "\n".join(lines)
 
-
-# ============================================================================
 # Console ASCII Tree Exporter
-# ============================================================================
 
 def render_console_tree(spans: Sequence[Any]) -> str:
     """Renders a human-readable ASCII tree of the trace hierarchy."""

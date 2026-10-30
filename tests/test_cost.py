@@ -23,7 +23,6 @@ from agentscope.constants import (
     register_model_pricing,
 )
 
-
 class TestModelPricingTable:
     def test_anthropic_models_present(self):
         models = [
@@ -70,7 +69,6 @@ class TestModelPricingTable:
     def test_register_negative_pricing_fails(self):
         with pytest.raises(ValueError):
             register_model_pricing("bad-llm", -0.01, 0.02)
-
 
 class TestCostAggregationCalculation:
     def test_single_span_gpt4o_cost(self):

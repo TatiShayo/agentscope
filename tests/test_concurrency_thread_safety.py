@@ -28,7 +28,6 @@ from agentscope.ledger import save_ledger, load_ledger, update_task_trace
 from agentscope.delegation import sign_delegation, verify_delegation, read_audit_log
 from agentscope.rationale import log_dispatch_rationale, read_rationale_log
 
-
 class TestTracerThreadSafety:
     def test_concurrent_tracer_initialization(self):
         """Ensures multiple concurrent threads initializing tracer do not corrupt global state."""
@@ -76,7 +75,6 @@ class TestTracerThreadSafety:
         expected_total = num_workers * (1 + (calls_per_worker * 2))
         assert len(spans) == expected_total
         reset_tracer()
-
 
 class TestLedgerAndAuditThreadSafety:
     def test_concurrent_ledger_updates(self, tmp_path):

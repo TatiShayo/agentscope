@@ -103,7 +103,6 @@ from agentscope.delegation import (
 
 __version__ = "3.2.0"
 __all__ = [
-    # Constants
     "OTEL_GENAI_SPEC_VERSION",
     "CAPTURE_CONTENT",
     "MODEL_PRICING",

@@ -19,7 +19,6 @@ from agentscope.exporter import (
     render_console_tree,
 )
 
-
 def fetch_trace_data(
     trace_id: str,
     jaeger_url: str = DEFAULT_JAEGER_URL,
@@ -46,7 +45,6 @@ def fetch_trace_data(
 
     return data["data"][0]
 
-
 def fetch_and_build_tree(
     trace_id: str,
     jaeger_url: str = DEFAULT_JAEGER_URL,
@@ -56,7 +54,6 @@ def fetch_and_build_tree(
     trace_data = fetch_trace_data(trace_id, jaeger_url=jaeger_url, timeout_seconds=timeout_seconds)
     spans = trace_data.get("spans", [])
     return build_trace_tree(spans)
-
 
 def render_trace(
     spans: List[Any],
@@ -82,7 +79,6 @@ def render_trace(
     else:
         raise ValueError(f"Unsupported render format: '{output_format}'. Use 'mermaid_sequence', 'mermaid_flowchart', 'json', or 'ascii'.")
 
-
 def find_nodes(roots: List[SpanNode], predicate: Callable[[SpanNode], bool]) -> List[SpanNode]:
     """Recursively searches for nodes in the tree matching the given predicate function."""
     matches: List[SpanNode] = []
@@ -97,7 +93,6 @@ def find_nodes(roots: List[SpanNode], predicate: Callable[[SpanNode], bool]) -> 
         walk(root)
 
     return matches
-
 
 def get_critical_path(roots: List[SpanNode]) -> List[SpanNode]:
     """Identifies the longest latency execution path in the span tree."""

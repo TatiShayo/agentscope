@@ -18,7 +18,6 @@ DEFAULT_KEY_PATH = os.path.join(os.path.expanduser("~"), ".agentscope_hmac_key")
 
 _delegation_lock = threading.RLock()
 
-
 def _load_or_create_key(key_path: str = DEFAULT_KEY_PATH) -> bytes:
     """Loads the local HMAC key, creating it with secure random bytes on first use."""
     with _delegation_lock:
@@ -35,12 +34,10 @@ def _load_or_create_key(key_path: str = DEFAULT_KEY_PATH) -> bytes:
             f.write(key)
         return key
 
-
 def _canonical_payload(record: Dict[str, Any]) -> bytes:
     """Deterministic serialization of the record body (excluding signature)."""
     body = {k: v for k, v in record.items() if k != "signature" and k != "signature_valid"}
     return json.dumps(body, sort_keys=True, separators=(",", ":")).encode("utf-8")
-
 
 def sign_delegation(
     issuer: str,
@@ -84,7 +81,6 @@ def sign_delegation(
 
     return record
 
-
 def verify_delegation(record: Dict[str, Any], key_path: str = DEFAULT_KEY_PATH) -> bool:
     """Verifies a delegation record's HMAC signature against the local key."""
     if not isinstance(record, dict):
@@ -100,7 +96,6 @@ def verify_delegation(record: Dict[str, Any], key_path: str = DEFAULT_KEY_PATH) 
         return hmac.compare_digest(signature, expected)
     except Exception:
         return False
-
 
 def read_audit_log(
     audit_log_path: str = DEFAULT_AUDIT_LOG_PATH,

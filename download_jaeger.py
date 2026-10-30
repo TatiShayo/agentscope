@@ -49,7 +49,7 @@ def download_url(url):
         content = response.read()
 
     os.makedirs("jaeger_bin", exist_ok=True)
-    
+
     if url.endswith(".zip"):
         print("Extracting zip archive...")
         with zipfile.ZipFile(io.BytesIO(content)) as z:
@@ -59,14 +59,13 @@ def download_url(url):
         with tarfile.open(fileobj=io.BytesIO(content), mode="r:gz") as t:
             t.extractall("jaeger_bin")
     else:
-        # Check if we can extract as zip anyway
         try:
             with zipfile.ZipFile(io.BytesIO(content)) as z:
                 z.extractall("jaeger_bin")
         except Exception:
             with tarfile.open(fileobj=io.BytesIO(content), mode="r:gz") as t:
                 t.extractall("jaeger_bin")
-    
+
     print("Extraction complete. Jaeger binary is inside 'jaeger_bin' directory.")
 
 if __name__ == "__main__":

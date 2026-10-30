@@ -114,7 +114,6 @@ MODEL_PRICING: Dict[str, Dict[str, float]] = {
     "test-model": {"input": 0.0001, "output": 0.0002},
 }
 
-
 def normalize_model_name(model_name: str) -> str:
     """Normalizes model names (lowercasing, trimming, alias mapping)."""
     if not model_name:
@@ -125,17 +124,14 @@ def normalize_model_name(model_name: str) -> str:
         name = name.split("/")[-1]
     return name
 
-
 def get_model_pricing(model_name: str) -> Optional[Dict[str, float]]:
     """Retrieves pricing for a model by name or normalized name."""
     norm = normalize_model_name(model_name)
     if norm in MODEL_PRICING:
         return MODEL_PRICING[norm]
-    # Check if exact match exists
     if model_name in MODEL_PRICING:
         return MODEL_PRICING[model_name]
     return None
-
 
 def register_model_pricing(model_name: str, input_price: float, output_price: float) -> None:
     """Registers or updates a custom model's pricing in the global table."""

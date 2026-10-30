@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional
 DEFAULT_LOG_PATH = "DISPATCH_RATIONALE.jsonl"
 _rationale_lock = threading.RLock()
 
-
 def log_dispatch_rationale(
     rationale: str,
     action: str,
@@ -67,7 +66,6 @@ def log_dispatch_rationale(
         pass
 
     return entry
-
 
 def read_rationale_log(log_path: str = DEFAULT_LOG_PATH, last_n: Optional[int] = None) -> List[Dict[str, Any]]:
     """Reads the rationale log (whole log or last N entries). Thread-safe and fault-tolerant."""

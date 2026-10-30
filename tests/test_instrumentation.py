@@ -24,14 +24,12 @@ from agentscope.instrumentation import (
 )
 import agentscope.instrumentation as inst_mod
 
-
 @pytest.fixture(autouse=True)
 def setup_test_tracer():
     reset_tracer()
     tracer, exporter = init_in_memory_tracer("test-service")
     yield tracer, exporter
     reset_tracer()
-
 
 class TestSecretSanitization:
     def test_sanitize_keywords(self):
@@ -87,7 +85,6 @@ class TestSecretSanitization:
         assert sanitize_value("float_val", 3.14) == 3.14
         assert sanitize_value("bool_val", True) is True
 
-
 class TestLLMCallInstrumentation:
     def test_instrument_llm_call_emits_span(self, setup_test_tracer):
         tracer, exporter = setup_test_tracer
@@ -137,7 +134,6 @@ class TestLLMCallInstrumentation:
         assert "What is 2+2?" in span.attributes["gen_ai.request.content"]
         assert span.attributes["gen_ai.response.content"] == "4"
 
-
 class TestToolCallInstrumentation:
     def test_instant_tool_call_emits_child_span(self, setup_test_tracer):
         tracer, exporter = setup_test_tracer
@@ -172,7 +168,6 @@ class TestToolCallInstrumentation:
         assert len(spans) == 1
         assert spans[0].status.status_code == StatusCode.ERROR
         assert "Invalid tool syntax" in spans[0].status.description
-
 
 class TestSubagentHierarchy:
     def test_subagent_dispatch_creates_parent_child_hierarchy(self, setup_test_tracer):

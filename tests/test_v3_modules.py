@@ -21,7 +21,6 @@ from agentscope.cycles import get_cycle_count, increment_cycle, assert_can_dispa
 from agentscope.delegation import sign_delegation, verify_delegation, read_audit_log
 from agentscope.ledger import save_ledger
 
-
 VALID_FINDING = {
     "severity": "high",
     "category": "injection",
@@ -31,7 +30,6 @@ VALID_FINDING = {
     "recommended_fix": "Use a parameterized query.",
     "provenance": "src/api/route.ts",
 }
-
 
 class TestFindingsSchema:
     def test_valid_report_passes(self):
@@ -72,7 +70,6 @@ class TestFindingsSchema:
         flat = json.dumps(summary)
         assert "SQL" not in flat
 
-
 class TestTestResultsSchema:
     def test_valid(self):
         ok, _ = validate_test_results({
@@ -88,7 +85,6 @@ class TestTestResultsSchema:
     def test_summary(self):
         s = summarize_test_results({"status": "pass", "passed": 12, "failed": 0, "failures": []})
         assert s["clean"] and s["passed"] == 12
-
 
 class TestRationaleLog:
     def test_write_and_read(self, tmp_path):
@@ -110,7 +106,6 @@ class TestRationaleLog:
         for i in range(5):
             log_dispatch_rationale(f"entry {i}", action="dispatch", log_path=log)
         assert len(read_rationale_log(log, last_n=2)) == 2
-
 
 class TestCycleCounter:
     def _ledger(self, tmp_path):
@@ -143,7 +138,6 @@ class TestCycleCounter:
         ledger = self._ledger(tmp_path)
         result = increment_cycle(ledger, "item-3")
         assert "project_lead_agent" in result["compact_rules"]
-
 
 class TestDelegation:
     def test_sign_and_verify(self, tmp_path):

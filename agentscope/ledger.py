@@ -14,7 +14,6 @@ from agentscope.constants import DEFAULT_JAEGER_URL
 
 _ledger_lock = threading.RLock()
 
-
 def load_ledger(ledger_path: str) -> Dict[str, Any]:
     """Loads and validates the task ledger from file in a thread-safe manner."""
     if not os.path.exists(ledger_path):
@@ -26,7 +25,6 @@ def load_ledger(ledger_path: str) -> Dict[str, Any]:
                 return json.load(f)
             except json.JSONDecodeError as e:
                 raise ValueError(f"Corrupt JSON in task ledger at {ledger_path}: {e}")
-
 
 def save_ledger(ledger_path: str, ledger_data: Dict[str, Any]) -> None:
     """
@@ -47,7 +45,6 @@ def save_ledger(ledger_path: str, ledger_data: Dict[str, Any]) -> None:
             temp_path = tf.name
 
         os.replace(temp_path, ledger_path)
-
 
 def update_task_trace(
     ledger_path: str,
@@ -84,7 +81,6 @@ def update_task_trace(
         if updated:
             save_ledger(ledger_path, ledger)
         return updated
-
 
 def resolve_trace_link(
     ledger_path: str,

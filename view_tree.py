@@ -7,7 +7,6 @@ Supports ASCII console tree, Mermaid sequence diagram, and JSON outputs.
 import sys
 from agentscope.tree import fetch_trace_data, render_trace
 
-
 def main():
     if len(sys.argv) < 2:
         print("Usage: python view_tree.py <trace_id> [format: ascii|mermaid|flowchart|json] [jaeger_url]")
@@ -25,7 +24,6 @@ def main():
     except Exception as e:
         print(f"Error fetching or rendering trace: {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()

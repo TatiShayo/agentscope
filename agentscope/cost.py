@@ -18,7 +18,6 @@ from agentscope.constants import (
     normalize_model_name,
 )
 
-
 def _extract_tags_dict(span: Any) -> Dict[str, Any]:
     """
     Extracts attributes/tags from a span whether it is:
@@ -41,7 +40,6 @@ def _extract_tags_dict(span: Any) -> Dict[str, Any]:
 
     return {}
 
-
 def _extract_span_name(span: Any) -> str:
     """Extracts operation name from span."""
     if hasattr(span, "name"):
@@ -49,7 +47,6 @@ def _extract_span_name(span: Any) -> str:
     if isinstance(span, dict):
         return str(span.get("operationName") or span.get("name") or "")
     return ""
-
 
 def aggregate_cost_from_spans(
     spans: Sequence[Any],
@@ -82,7 +79,6 @@ def aggregate_cost_from_spans(
             elif isinstance(span, dict) and "traceID" in span:
                 resolved_trace_id = str(span["traceID"])
 
-        # Check if span represents a GenAI call with token counts
         has_tokens = "gen_ai.usage.input_tokens" in tags or "gen_ai.usage.output_tokens" in tags
         if not has_tokens:
             continue
@@ -198,7 +194,6 @@ def aggregate_cost_from_spans(
 
     return result
 
-
 def aggregate_cost_from_trace_data(trace_data: Dict[str, Any]) -> Dict[str, Any]:
     """Aggregates cost from a single Jaeger trace data object."""
     if not isinstance(trace_data, dict):
@@ -207,7 +202,6 @@ def aggregate_cost_from_trace_data(trace_data: Dict[str, Any]) -> Dict[str, Any]
     trace_id = trace_data.get("traceID")
     spans = trace_data.get("spans", [])
     return aggregate_cost_from_spans(spans, trace_id=trace_id)
-
 
 def aggregate_cost(
     trace_id: str,

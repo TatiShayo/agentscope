@@ -24,7 +24,6 @@ from agentscope.exporter import (
     render_console_tree,
 )
 
-
 class TestExponentialBackoff:
     def test_backoff_delays(self):
         eb = ExponentialBackoff(initial_delay=0.1, max_delay=1.0, multiplier=2.0, jitter=False)
@@ -39,7 +38,6 @@ class TestExponentialBackoff:
         for _ in range(10):
             d = eb.get_delay(1)
             assert 0.0 <= d <= 1.0
-
 
 class TestResilientSpanExporter:
     def test_successful_export_delegation(self):
@@ -101,7 +99,6 @@ class TestResilientSpanExporter:
         assert exporter._is_shutdown is True
         # Export after shutdown returns FAILURE
         assert exporter.export([MagicMock()]) == SpanExportResult.FAILURE
-
 
 class TestTraceVisualizations:
     @pytest.fixture

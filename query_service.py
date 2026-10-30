@@ -18,7 +18,6 @@ from agentscope.exporter import build_trace_tree, export_trace_tree_json, export
 
 logger = logging.getLogger("agentscope.query_service")
 
-
 class QueryHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed_url = urllib.parse.urlparse(self.path)
@@ -155,7 +154,6 @@ class QueryHandler(BaseHTTPRequestHandler):
         # Suppress noisy standard HTTP logs in test environments unless debugging
         pass
 
-
 def run_server(port: int = DEFAULT_QUERY_SERVICE_PORT, host: str = "0.0.0.0") -> None:
     server = HTTPServer((host, port), QueryHandler)
     print(f"AgentScope Query Service running on http://{host}:{port}...")
@@ -164,7 +162,6 @@ def run_server(port: int = DEFAULT_QUERY_SERVICE_PORT, host: str = "0.0.0.0") ->
     except KeyboardInterrupt:
         print("\nShutting down query server.")
         server.server_close()
-
 
 if __name__ == "__main__":
     import sys

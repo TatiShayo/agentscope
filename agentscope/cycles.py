@@ -36,12 +36,10 @@ COMPACT_RULES = {
     ),
 }
 
-
 def get_cycle_count(ledger_path: str, backlog_item_id: str) -> int:
     """Reads the current fix-review cycle count for a backlog item (0 if never dispatched)."""
     ledger = load_ledger(ledger_path)
     return int(ledger.get("cycles", {}).get(backlog_item_id, 0))
-
 
 def increment_cycle(ledger_path: str, backlog_item_id: str, cap: int = DEFAULT_CYCLE_CAP) -> Dict[str, Any]:
     """
@@ -61,7 +59,6 @@ def increment_cycle(ledger_path: str, backlog_item_id: str, cap: int = DEFAULT_C
         "compact_rules": COMPACT_RULES,
     }
 
-
 def reset_cycle_count(ledger_path: str, backlog_item_id: str) -> int:
     """Resets cycle counter for a backlog item."""
     ledger = load_ledger(ledger_path)
@@ -69,7 +66,6 @@ def reset_cycle_count(ledger_path: str, backlog_item_id: str) -> int:
     cycles[backlog_item_id] = 0
     save_ledger(ledger_path, ledger)
     return 0
-
 
 def assert_can_dispatch(ledger_path: str, backlog_item_id: str, cap: int = DEFAULT_CYCLE_CAP) -> None:
     """

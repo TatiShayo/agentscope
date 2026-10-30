@@ -17,7 +17,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from query_service import QueryHandler
 
-
 @pytest.fixture(scope="module")
 def http_server():
     """Starts an ephemeral HTTP server on localhost with an assigned port."""
@@ -29,7 +28,6 @@ def http_server():
     yield base_url
     server.shutdown()
     server.server_close()
-
 
 class TestQueryServiceEndpoints:
     def test_health_endpoint(self, http_server):

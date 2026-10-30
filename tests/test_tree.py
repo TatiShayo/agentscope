@@ -21,7 +21,6 @@ from agentscope.tree import (
 )
 from agentscope.exporter import build_trace_tree, SpanNode
 
-
 @pytest.fixture
 def complex_tree_spans():
     return [
@@ -73,7 +72,6 @@ def complex_tree_spans():
             ],
         },
     ]
-
 
 class TestTreeReconstructionAndQueries:
     def test_find_nodes_by_role(self, complex_tree_spans):
